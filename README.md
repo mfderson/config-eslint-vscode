@@ -22,10 +22,9 @@ insert_final_newline = true
 ```
 
 ### 2 - Delete eslint
-Apagar arquivo do eslint se houver e instalar o eslint como depedência de desenvolvimento:
+Apagar arquivo do eslint, se houver, e instalar o eslint como dependência de desenvolvimento:
 ```
-yarn add eslint -D
-yarn eslint --init
+yarn add eslint -D && yarn eslint --init
 ```
 ### Obs: Após rodar o comando eslint --init, algumas opções deverão ser selecionadas:
 > How would you like to use ESLint? (Como você gostaria de utilizar o ESLint?)
