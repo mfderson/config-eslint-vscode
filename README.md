@@ -74,7 +74,7 @@ yarn
 ### 4 - Install Prettier
 Instalar dependências do prettier e babel-eslint conforme abaixo:
 ```
-yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint -D 
+yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint eslint-plugin-import eslint-import-resolver-babel-plugin-root-import -D 
 ```
 
 ### 5 - Add to eslintrc
