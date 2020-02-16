@@ -182,5 +182,9 @@ Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo prin
     }
 ``` 
 
+### 8 - Install babel plugin
+```
+yarn add babel-plugin-root-import -D
+```
 
 Ambiente configurado! Só começar a codar. :coffee: :raised_hands: 
