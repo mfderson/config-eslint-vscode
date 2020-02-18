@@ -182,9 +182,46 @@ Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo prin
     }
 ``` 
 
-### 8 - Install babel plugin
+### 8 - LEMBRETE: NÃO SE ESQUEÇA - MOBILE
+
+Para rodar a versão mobile, é necessário alterar para o **JDK8**.
 ```
-yarn add babel-plugin-root-import -D
+sudo update-alternatives --config java
+```
+
+### 9 - Config root import
+
+Com isso podemos utilizar o *"~"* para referenciar a pasta *src* do nosso projeto
+```
+yarn add babel-plugin-root-import eslint-import-resolver-babel-plugin-root-import -D
+```
+- **Para mobile** o seu arquivo ***babel.config.js*** deve ficar assim:
+```
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    [
+      'babel-plugin-root-import',
+      {
+        rootPathSuffix: 'src',
+      },
+    ],
+  ],
+};
+```
+
+- Crie o arquivo ***jsconfig.json*** na raiz do projeto com o seguinte conteúdo:
+
+Se o arquivo exibir algum erro, feche a abra o vscode novamente.
+```
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "~/*": ["*"]
+    }
+  }
+}
 ```
 
 Ambiente configurado! Só começar a codar. :coffee: :raised_hands: 
