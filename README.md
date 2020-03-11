@@ -224,9 +224,9 @@ Se o arquivo exibir algum erro, feche a abra o vscode novamente.
 }
 ```
 
-### 9 - Config commitlint - [fonte](https://github.com/conventional-changelog/commitlint)
+### 9 - Config [commitlint](https://github.com/conventional-changelog/commitlint) e [commitizen](https://github.com/commitizen/cz-cli)
 
-Padrões de commit definidos pelo pessoal do Angular.
+Padronização de mensagens de commit.
 
 - Instalar commitlint:
 ```
