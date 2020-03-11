@@ -175,11 +175,11 @@ Criar arquivo ***.prettierrc*** com configurações de single quote:
 
 ### 7 - Add to settings
 Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo principal de configurações do VSCODE ***settings.json*** (ctrl + shift + P) adicione a seguinte linha:
-```
+```javascript
 "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    }
+"editor.codeActionsOnSave": {
+  "source.fixAll.eslint": true
+}
 ``` 
 
 ### 8 - LEMBRETE: NÃO SE ESQUEÇA - MOBILE
@@ -223,5 +223,54 @@ Se o arquivo exibir algum erro, feche a abra o vscode novamente.
   }
 }
 ```
+
+### 9 - Config commitlint - [fonte](https://github.com/conventional-changelog/commitlint)
+
+Padrões de commit definidos pelo pessoal do Angular.
+
+- Instalar commitlint:
+```
+yarn add @commitlint/{config-conventional,cli} -D
+```
+
+- Criar o arquivo *commitlint.config.js* na raiz do projeto com o seguinte conteúdo:
+```javascript
+module.exports = { extends: ['@commitlint/config-conventional'] };
+```
+ou pode criá-lo com o comando:
+```shell
+echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+```
+
+- Instale o husky:
+```shell
+yarn add husky -D
+```
+
+- Cole o conteúdo abaixo no arquivo *package.json* antes de devDependencies:
+```javascript
+"husky": {
+  "hooks": {
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+  }
+}
+```
+
+- Instale o commitizen:
+```
+yarn add commitizen -D
+yarn commitizen init cz-conventional-changelog --yarn --dev --exact
+```
+
+- Adicionar o seguinte conteúdo dentro do *package.json* na propriedade *husky:hooks*:
+```
+"prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+```
+
+- Pronto!!! Agora você pode realizar um commit com o seguinte comando:
+```shell
+git commit
+```
+
 
 Ambiente configurado! Só começar a codar. :coffee: :raised_hands: 
