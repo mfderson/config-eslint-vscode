@@ -23,7 +23,7 @@ insert_final_newline = true
 
 ### 2 - Delete eslint
 Apagar arquivo do eslint, se houver, e instalar o eslint como dependência de desenvolvimento:
-```
+```console
 yarn add eslint -D && yarn eslint --init
 ```
 ### Obs: Após rodar o comando eslint --init, algumas opções deverão ser selecionadas:
@@ -67,19 +67,25 @@ Y
 
 ### 3 - Delete package-lock
 Apagar aquivo ***package-lock.json*** para associar as dependências ao arquivo ***yarn.lock*** e reinstalar utilizando o comando abaixo:
-```
+```console
 yarn 
 ```
 
 ### 4 - Install Prettier
 Instalar dependências do prettier e babel-eslint conforme abaixo:
-```
+```console
 yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint eslint-plugin-import eslint-import-resolver-babel-plugin-root-import -D 
 ```
 
-### 5 - Add to eslintrc
-No arquivo ***.eslintrc.js*** copiar as configurações:
+### 5 - Install orginizer import [fonte](https://www.npmjs.com/package/eslint-plugin-import-helpers)
+
+```console
+yarn add eslint-plugin-import-helpers -D
 ```
+
+### 6 - Add to eslintrc
+No arquivo ***.eslintrc.js*** copiar as configurações:
+```javascript
 module.exports = {
   env: {
     es6: true
@@ -115,7 +121,7 @@ module.exports = {
 };
 ```
 Para a versão web/mobile:
-```
+```javascript
 module.exports = {
   env: {
     es6: true,
@@ -135,7 +141,14 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'jsx-a11y', 'import', 'react-hooks', 'prettier'],
+  plugins: [
+    'react',
+    'jsx-a11y',
+    'import',
+    'react-hooks',
+    'prettier',
+    'eslint-plugin-import-helpers',
+  ],
   rules: {
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
@@ -152,6 +165,14 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-props-no-spreading': 'off',
     'import/no-named-as-default': 'off',
+    'import-helpers/order-imports': [
+      'warn',
+      {
+        newlinesBetween: 'always',
+        groups: ['module', '/^@shared/', ['parent', 'sibling', 'index']],
+        alphabetize: { order: 'asc', ignoreCase: true },
+      },
+    ],
   },
   settings: {
     'import/resolver': {
@@ -161,10 +182,9 @@ module.exports = {
     },
   },
 };
-
 ```
 
-### 6 - Add to prettierrc
+### 7 - Add to prettierrc
 Criar arquivo ***.prettierrc*** com configurações de single quote:
 ```
 {
@@ -173,7 +193,7 @@ Criar arquivo ***.prettierrc*** com configurações de single quote:
 }
 ```
 
-### 7 - Add to settings
+### 8 - Add to settings
 Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo principal de configurações do VSCODE ***settings.json*** (ctrl + shift + P) adicione a seguinte linha:
 ```javascript
 "editor.formatOnSave": true,
@@ -182,17 +202,17 @@ Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo prin
 }
 ``` 
 
-### 8 - LEMBRETE: NÃO SE ESQUEÇA - MOBILE
+### 9 - LEMBRETE: NÃO SE ESQUEÇA - MOBILE
 
 Para rodar a versão mobile, é necessário alterar para o **JDK8**.
-```
+```console
 sudo update-alternatives --config java
 ```
 
-### 9 - Config root import
+### 10 - Config root import
 
 Com isso podemos utilizar o *"~"* para referenciar a pasta *src* do nosso projeto
-```
+```console
 yarn add babel-plugin-root-import eslint-import-resolver-babel-plugin-root-import -D
 ```
 - **Para mobile** o seu arquivo ***babel.config.js*** deve ficar assim:
@@ -224,12 +244,12 @@ Se o arquivo exibir algum erro, feche a abra o vscode novamente.
 }
 ```
 
-### 9 - Config [commitlint](https://github.com/conventional-changelog/commitlint) e [commitizen](https://github.com/commitizen/cz-cli)
+### 11 - Config [commitlint](https://github.com/conventional-changelog/commitlint) e [commitizen](https://github.com/commitizen/cz-cli)
 
 Padronização de mensagens de commit.
 
 - Instalar commitlint:
-```
+```console
 yarn add @commitlint/{config-conventional,cli} -D
 ```
 
@@ -238,12 +258,12 @@ yarn add @commitlint/{config-conventional,cli} -D
 module.exports = { extends: ['@commitlint/config-conventional'] };
 ```
 ou pode criá-lo com o comando:
-```shell
+```console
 echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
 ```
 
 - Instale o husky:
-```shell
+```console
 yarn add husky -D
 ```
 
@@ -257,7 +277,7 @@ yarn add husky -D
 ```
 
 - Instale o commitizen:
-```
+```console
 yarn add commitizen -D
 yarn commitizen init cz-conventional-changelog --yarn --dev --exact
 ```
@@ -268,9 +288,8 @@ yarn commitizen init cz-conventional-changelog --yarn --dev --exact
 ```
 
 - Pronto!!! Agora você pode realizar um commit com o seguinte comando:
-```shell
+```console
 git commit
 ```
-
 
 Ambiente configurado! Só começar a codar. :coffee: :raised_hands: 
