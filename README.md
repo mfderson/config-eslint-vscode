@@ -77,12 +77,6 @@ Instalar dependências do prettier e babel-eslint conforme abaixo:
 yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint eslint-plugin-import eslint-import-resolver-babel-plugin-root-import -D 
 ```
 
-### 5 - Install orginizer import [fonte](https://www.npmjs.com/package/eslint-plugin-import-helpers)
-
-```console
-yarn add eslint-plugin-import-helpers -D
-```
-
 ### 6 - Add to eslintrc
 No arquivo ***.eslintrc.js*** copiar as configurações:
 ```javascript
@@ -165,14 +159,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-props-no-spreading': 'off',
     'import/no-named-as-default': 'off',
-    'import-helpers/order-imports': [
-      'warn',
-      {
-        newlinesBetween: 'always',
-        groups: ['module', '/^@shared/', ['parent', 'sibling', 'index']],
-        alphabetize: { order: 'asc', ignoreCase: true },
-      },
-    ],
   },
   settings: {
     'import/resolver': {
