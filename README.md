@@ -64,7 +64,6 @@ JavaScript
 Y
 
 
-
 ### 3 - Delete package-lock
 Apagar aquivo ***package-lock.json*** para associar as dependências ao arquivo ***yarn.lock*** e reinstalar utilizando o comando abaixo:
 ```console
@@ -75,6 +74,11 @@ yarn
 Instalar dependências do prettier e babel-eslint conforme abaixo:
 ```console
 yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint eslint-plugin-import eslint-import-resolver-babel-plugin-root-import -D 
+```
+
+### 5 - Install Plugin Importer
+```console
+yarn add eslint-plugin-import-helpers -D
 ```
 
 ### 6 - Add to eslintrc
@@ -159,6 +163,14 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-props-no-spreading': 'off',
     'import/no-named-as-default': 'off',
+    'import-helpers/order-imports': [
+      'warn',
+      {
+        newlinesBetween: 'always',
+        groups: ['/^react/', 'module', '/^~/', ['parent', 'sibling', 'index']],
+        alphabetize: { order: 'asc', ignoreCase: true },
+      },
+    ],
   },
   settings: {
     'import/resolver': {
