@@ -4,7 +4,6 @@ Configuração default de style guide.
 ### 0 - Install Extensions in VS Code
 * EditorConfig for VS Code
 * ESLint
-* Prettier - Code formatter
 
 ### 1 - Gerar .editorconfig
 Clicar com botão direito no diretório raíz do VSCODE e ***Generate .editorconfig***
@@ -40,12 +39,13 @@ Javascript modules (import/export)
 React, Vue ou None of theses
 
 > Does your project use TypeScript? (y/N) (O seu projeto usa TypeScript?)
- 
-N
+Y/N
 
 > Where does your code run? (Onde irá rodar seu projeto?)
 
-Browser ou Node (use a barra de espaço para desmarcar uma opção. No caso do react native, desmarque todas.)
+Browser ou Node (use a barra de espaço para desmarcar uma opção)
+- No caso do react native, desmarque todas.)
+- No caso de desenvolvimento do back com node, marque apenas Node.
 
 > Use a popular style guide (Utilize uma guia de estilo popular)
 
@@ -57,12 +57,27 @@ Airbnb
 
 > What format do you want your config file to be in? (Em que formato você deseja que o seu arquivo de configuração esteja?)
 
-JavaScript
+JSON
 
-> Would you like to install them now with npm? (Y/n) (Gostaria de instalar as dependências com npm?)
+> The style guide "airbnb" requires eslint@^5.16.0 || ^6.8.0. You are currently using eslint@7.0.0. Do you want to downgrade?
 
-Y
+No
 
+> Would you like to install them now with npm?
+
+No
+
+Pega a linha gerada em cima do comando anterior e remova o eslint, pois já temos instalado.
+
+Era assim:
+```console
+yarn add -D @typescript-eslint/eslint-plugin@latest eslint-config-airbnb-base@latest eslint@^5.16.0 || ^6.8.0 eslint-plugin-import@^2.20.1 @typescript-eslint/parser@latest
+```
+
+Ficou assim:
+```console
+yarn add -D @typescript-eslint/eslint-plugin@latest eslint-config-airbnb-base@latest eslint-plugin-import@^2.20.1 @typescript-eslint/parser@latest 
+```
 
 ### 3 - Delete package-lock
 Apagar aquivo ***package-lock.json*** para associar as dependências ao arquivo ***yarn.lock*** e reinstalar utilizando o comando abaixo:
@@ -70,55 +85,58 @@ Apagar aquivo ***package-lock.json*** para associar as dependências ao arquivo 
 yarn 
 ```
 
-### 4 - Install Prettier
-Instalar dependências do prettier e babel-eslint conforme abaixo:
+### 4 - Install Plugin Importer
 ```console
-yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint eslint-plugin-import eslint-import-resolver-babel-plugin-root-import -D 
+yarn add -D eslint-import-resolver-typescript
 ```
 
-### 5 - Install Plugin Importer
-```console
-yarn add eslint-plugin-import-helpers -D
-```
+### 5 - Add to eslintrc
+No arquivo ***.eslintrc.json*** copiar as configurações:
 
-### 6 - Add to eslintrc
-No arquivo ***.eslintrc.js*** copiar as configurações:
+Para versão **Node - Backend**:
 ```javascript
-module.exports = {
-  env: {
-    es6: true
+{
+  "env": {
+    "es6": true,
+    "node": true
   },
-  extends: ["plugin:react/recommended", "airbnb", "prettier/react"],
-  globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
   },
-  parser: "babel-eslint",
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
-    ecmaVersion: 2018,
-    sourceType: "module"
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
   },
-  plugins: ["react", "prettier"],
-  rules: {
-    "linebreak-style": ["error", "windows"],
-    "linebreak-style": 0,
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "rules": {
     "prettier/prettier": "error",
-    "react/jsx-filename-extension": [
-      "warn",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
       {
-        extensions: [".jsx", ".js"]
+        "ts": "never"
       }
-    ],
-    "import/prefer-default-export": "off",
-    "no-param-reassign": "off",
-    "no-console": ["error", { allow: ["tron"] }]
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
   }
-};
+}
 ```
-Para a versão web/mobile:
+Para a versão **web/mobile**:
 ```javascript
 module.exports = {
   env: {
@@ -182,23 +200,95 @@ module.exports = {
 };
 ```
 
-### 7 - Add to prettierrc
-Criar arquivo ***.prettierrc*** com configurações de single quote:
+Crie o arquivo .eslintingnore na raiz. Ele terá o seguinte conteúdo:
 ```
+/*.js
+node_modules
+dist
+```
+
+### 6 - Install Prettier
+Instalar dependências do prettier:
+```console
+yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+```
+
+Crie o arquivo prettier.config.js na raiz. Ele terá o seguinte conteúdo:
+```javascript
+module.exports = {
+  singleQuote: true,
+  trailingComma: "all",
+  arrowParens: "avoid",
+};
+```
+
+### 7 - Add to settings.json
+Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo principal de configurações do VSCODE ***settings.json*** (ctrl + shift + P) adicione a seguinte linha:
+```json
+"[javascript]": {
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+},
+
+"[javascriptreact]": {
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true 
+  }
+},
+
+"[typescript]": {
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true 
+  }
+},
+
+"[typescriptreact]": {
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+``` 
+
+### 8 - Configurando Debug no VSCode
+
+- Clique no play com a barata na barra lateral
+
+- Clique em *create a launch.json file*
+
+- O conteúdo do arquivo deve ficar assim:
+```json
 {
-  "singleQuote": true,
-  "trailingComma": "es5"
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "protocol": "inspector",
+      "restart": true,
+      "name": "Debug",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/**/*.js"
+      ]
+    }
+  ]
 }
 ```
 
-### 8 - Add to settings
-Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo principal de configurações do VSCODE ***settings.json*** (ctrl + shift + P) adicione a seguinte linha:
-```javascript
-"editor.formatOnSave": true,
-"editor.codeActionsOnSave": {
-  "source.fixAll.eslint": true
-}
-``` 
+- Adicione no **package.json** a propriedade **--inspect** em sua script de dev. Deve ficar como abaixo (por exemplo):
+```json
+"scripts": {
+  "build": "tsc",
+  "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts"
+},
+```
+
 
 ### 9 - LEMBRETE: NÃO SE ESQUEÇA - MOBILE
 
