@@ -289,6 +289,7 @@ Para que as configurações sejam aplicadas ao salvar o arquivo, no arquivo prin
 },
 ```
 
+- Agora com o projeto rodando ou não, vá no ícone de play com a barata e dê um **run**.
 
 ### 9 - LEMBRETE: NÃO SE ESQUEÇA - MOBILE
 
